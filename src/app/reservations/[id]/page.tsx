@@ -22,6 +22,8 @@ interface Reservation {
     id: string;
     name: string;
     sku: string;
+    description?: string;
+    imageUrl: string;
   };
   warehouse: {
     id: string;
@@ -225,13 +227,21 @@ export default function ReservationPage() {
 
           <div className="space-y-6">
             <div className="p-4 bg-white/5 rounded-xl border border-white/10">
-              <div className="flex items-center gap-3 mb-3">
-                <Package className="h-5 w-5 text-purple-400" />
-                <span className="font-medium text-gray-300">Product</span>
-              </div>
-              <div className="ml-8">
-                <p className="text-lg font-semibold text-white">{reservation.product.name}</p>
-                <p className="text-sm text-gray-400 font-mono">SKU: {reservation.product.sku}</p>
+              <div className="flex gap-4">
+                <div className="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
+                  <img 
+                    src={reservation.product.imageUrl} 
+                    alt={reservation.product.name} 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="flex-1">
+                  <p className="text-lg font-semibold text-white">{reservation.product.name}</p>
+                  {reservation.product.description && (
+                    <p className="text-sm text-gray-400 mt-1">{reservation.product.description}</p>
+                  )}
+                  <p className="text-sm text-gray-400 font-mono mt-2">SKU: {reservation.product.sku}</p>
+                </div>
               </div>
             </div>
 
