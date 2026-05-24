@@ -119,58 +119,66 @@ export default function Home() {
           ))}
         </div>
       ) : (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-8 md:grid-cols-2">
           {products.map((product) => (
-            <Card key={product.id} className="overflow-hidden glass-card hover:shadow-purple-500/20 transition-all duration-300 hover:scale-[1.02]">
-              <div className="relative h-48 overflow-hidden">
+            <Card key={product.id} className="overflow-hidden glass-card hover:shadow-purple-500/30 transition-all duration-300 hover:scale-[1.01]">
+              <div className="relative h-64 overflow-hidden">
                 <img 
                   src={product.imageUrl} 
                   alt={product.name} 
-                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4">
-                  <CardTitle className="text-xl text-white mb-1">{product.name}</CardTitle>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+                <div className="absolute bottom-6 left-6 right-6">
+                  <CardTitle className="text-2xl font-bold text-white mb-2">{product.name}</CardTitle>
                   {product.description && (
-                    <p className="text-sm text-gray-300 line-clamp-2">{product.description}</p>
+                    <p className="text-sm text-gray-300 line-clamp-2 mb-2">{product.description}</p>
                   )}
-                  <p className="font-mono text-xs mt-1 text-gray-400">
+                  <p className="font-mono text-sm text-gray-400">
                     SKU: {product.sku}
                   </p>
                 </div>
               </div>
-              <CardContent className="pt-4">
-                <div className="space-y-3">
+              <CardContent className="pt-6 px-6 pb-6">
+                <div className="space-y-4">
                   {product.stock.map((stock) => {
                     const available = stock.total - stock.reserved;
-                    const isLowStock = available <= 5;
+                    const isLowStock = available <= 10;
                     const isOutOfStock = available <= 0;
 
                     return (
-                      <div key={stock.id} className="p-3 bg-white/5 rounded-lg border border-white/10 hover:bg-white/10 transition-colors">
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center gap-2">
-                            <Warehouse className="h-4 w-4 text-gray-400" />
-                            <span className="font-medium text-gray-200 text-sm">{stock.warehouse.name}</span>
+                      <div key={stock.id} className="p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-colors">
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="flex items-center gap-3">
+                            <div className="p-2 bg-white/10 rounded-lg">
+                              <Warehouse className="h-5 w-5 text-blue-400" />
+                            </div>
+                            <span className="font-semibold text-gray-200">{stock.warehouse.name}</span>
                           </div>
                           <Badge 
                             className={isOutOfStock 
-                              ? 'bg-red-500/20 text-red-400 border-red-500/30 text-xs' 
+                              ? 'bg-red-500/20 text-red-400 border-red-500/30 px-3 py-1' 
                               : isLowStock 
-                                ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30 text-xs' 
-                                : 'bg-green-500/20 text-green-400 border-green-500/30 text-xs'}
+                                ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30 px-3 py-1' 
+                                : 'bg-green-500/20 text-green-400 border-green-500/30 px-3 py-1'}
                           >
                             {isOutOfStock ? 'Out of Stock' : `${available} Available`}
                           </Badge>
                         </div>
-                        <Button
-                          onClick={() => handleReserve(product.id, stock.warehouse.id)}
-                          disabled={isOutOfStock}
-                          size="sm"
-                          className="w-full text-sm"
-                        >
-                          {isOutOfStock ? 'Unavailable' : 'Reserve'}
-                        </Button>
+                        <div className="flex items-center justify-between">
+                          <div className="text-sm text-gray-400">
+                            Total: {stock.total} | Reserved: {stock.reserved}
+                          </div>
+                          <Button
+                            onClick={() => handleReserve(product.id, stock.warehouse.id)}
+                            disabled={isOutOfStock}
+                            className={isOutOfStock 
+                              ? 'bg-gray-700 hover:bg-gray-700' 
+                              : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500'}
+                          >
+                            {isOutOfStock ? 'Unavailable' : 'Reserve'}
+                          </Button>
+                        </div>
                       </div>
                     );
                   })}
