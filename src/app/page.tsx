@@ -83,12 +83,12 @@ export default function Home() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto">
-      <div className="mb-10 text-center">
-        <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 mb-3">
+    <div className="max-w-6xl mx-auto">
+      <div className="mb-16 text-center">
+        <h1 className="text-5xl md:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 mb-4">
           Inventory Reservation System
         </h1>
-        <p className="text-gray-400 text-lg">Reserve products before checkout to secure your stock</p>
+        <p className="text-gray-300 text-xl">Reserve products before checkout to secure your stock</p>
       </div>
 
       {error && (
@@ -119,62 +119,63 @@ export default function Home() {
           ))}
         </div>
       ) : (
-        <div className="grid gap-8 md:grid-cols-2">
+        <div className="grid gap-10 md:grid-cols-2">
           {products.map((product) => (
-            <Card key={product.id} className="overflow-hidden glass-card hover:shadow-purple-500/30 transition-all duration-300 hover:scale-[1.01]">
-              <div className="relative h-64 overflow-hidden">
+            <Card key={product.id} className="overflow-hidden glass-card hover:shadow-purple-500/40 transition-all duration-500 hover:scale-[1.02] border border-white/10">
+              <div className="relative h-72 overflow-hidden">
                 <img 
                   src={product.imageUrl} 
                   alt={product.name} 
-                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-1000 hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
-                <div className="absolute bottom-6 left-6 right-6">
-                  <CardTitle className="text-2xl font-bold text-white mb-2">{product.name}</CardTitle>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent" />
+                <div className="absolute bottom-8 left-8 right-8">
+                  <CardTitle className="text-3xl font-bold text-white mb-3">{product.name}</CardTitle>
                   {product.description && (
-                    <p className="text-sm text-gray-300 line-clamp-2 mb-2">{product.description}</p>
+                    <p className="text-base text-gray-300 line-clamp-2 mb-3">{product.description}</p>
                   )}
                   <p className="font-mono text-sm text-gray-400">
                     SKU: {product.sku}
                   </p>
                 </div>
               </div>
-              <CardContent className="pt-6 px-6 pb-6">
-                <div className="space-y-4">
+              <CardContent className="pt-8 px-8 pb-8">
+                <div className="space-y-5">
                   {product.stock.map((stock) => {
                     const available = stock.total - stock.reserved;
                     const isLowStock = available <= 10;
                     const isOutOfStock = available <= 0;
 
                     return (
-                      <div key={stock.id} className="p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-colors">
-                        <div className="flex items-center justify-between mb-3">
-                          <div className="flex items-center gap-3">
-                            <div className="p-2 bg-white/10 rounded-lg">
-                              <Warehouse className="h-5 w-5 text-blue-400" />
+                      <div key={stock.id} className="p-5 bg-white/5 rounded-2xl border border-white/15 hover:bg-white/10 transition-all duration-300">
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="flex items-center gap-4">
+                            <div className="p-3 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-xl border border-white/10">
+                              <Warehouse className="h-6 w-6 text-purple-400" />
                             </div>
-                            <span className="font-semibold text-gray-200">{stock.warehouse.name}</span>
+                            <span className="font-bold text-lg text-gray-200">{stock.warehouse.name}</span>
                           </div>
                           <Badge 
                             className={isOutOfStock 
-                              ? 'bg-red-500/20 text-red-400 border-red-500/30 px-3 py-1' 
+                              ? 'bg-red-500/25 text-red-400 border-red-500/40 px-4 py-1.5 text-sm font-semibold' 
                               : isLowStock 
-                                ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30 px-3 py-1' 
-                                : 'bg-green-500/20 text-green-400 border-green-500/30 px-3 py-1'}
+                                ? 'bg-yellow-500/25 text-yellow-400 border-yellow-500/40 px-4 py-1.5 text-sm font-semibold' 
+                                : 'bg-green-500/25 text-green-400 border-green-500/40 px-4 py-1.5 text-sm font-semibold'}
                           >
                             {isOutOfStock ? 'Out of Stock' : `${available} Available`}
                           </Badge>
                         </div>
                         <div className="flex items-center justify-between">
-                          <div className="text-sm text-gray-400">
+                          <div className="text-sm text-gray-400 font-medium">
                             Total: {stock.total} | Reserved: {stock.reserved}
                           </div>
                           <Button
                             onClick={() => handleReserve(product.id, stock.warehouse.id)}
                             disabled={isOutOfStock}
+                            size="lg"
                             className={isOutOfStock 
-                              ? 'bg-gray-700 hover:bg-gray-700' 
-                              : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500'}
+                              ? 'bg-gray-700 hover:bg-gray-700 text-base px-6 py-2' 
+                              : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-base px-6 py-2 shadow-lg shadow-purple-500/20'}
                           >
                             {isOutOfStock ? 'Unavailable' : 'Reserve'}
                           </Button>
