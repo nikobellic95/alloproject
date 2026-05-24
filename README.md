@@ -2,6 +2,10 @@
 
 StockFlow is a modern inventory and order-fulfillment platform designed to solve the race condition problem during checkout. When customers proceed to checkout, StockFlow temporarily holds units for a short window (10 minutes), preventing overselling while maintaining high conversion rates.
 
+## Live Demo
+Check out the live application:
+[https://alloproject-a8ho6e2q9-nikobellic95s-projects.vercel.app/](https://alloproject-a8ho6e2q9-nikobellic95s-projects.vercel.app/)
+
 ## Background
 The classic problem:
 - **Decrement at payment time**: Two customers can pay for the same physical unit
@@ -9,13 +13,21 @@ The classic problem:
 - **Solution**: Temporary reservations - hold units during checkout, confirm on payment success, release on failure or timeout
 
 ## Tech Stack
+### Frontend
 - **Next.js 15** - App Router
 - **TypeScript** - End-to-end type safety
-- **Prisma ORM** - Database access and modeling
-- **PostgreSQL** - Database (hosted via Neon/Supabase/Railway)
-- **Tailwind CSS** - Styling with shadcn/ui components
+- **Tailwind CSS** - Styling
+- **shadcn/ui** - Component library
 - **Lucide React** - Icons
+
+### Backend
+- **Next.js API Routes** - Server-side API endpoints
+- **Prisma ORM** - Database access and modeling
 - **Zod** - Validation
+
+### Database & Hosting
+- **PostgreSQL** - Database (hosted via Neon)
+- **Vercel** - Deployment and hosting
 
 ## Features
 
